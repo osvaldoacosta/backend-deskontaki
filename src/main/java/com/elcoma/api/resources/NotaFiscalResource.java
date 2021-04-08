@@ -18,14 +18,6 @@ public class NotaFiscalResource {
     @Autowired
     private NotaFiscalService service;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody NotaFiscal notaFiscal) {
-        notaFiscal = service.insert(notaFiscal);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(notaFiscal.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<NotaFiscal> findById(@PathVariable Integer id){
         NotaFiscal notaFiscal = service.findById(id);
@@ -50,5 +42,11 @@ public class NotaFiscalResource {
     public ResponseEntity<List<NotaFiscal>> findAll(){
         List<NotaFiscal> list = service.findAll();
         return ResponseEntity.ok().body(list);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> register(@Valid @RequestBody String url){
+        service.register(url);
+        return ResponseEntity.noContent().build();
     }
 }

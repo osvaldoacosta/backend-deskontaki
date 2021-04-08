@@ -20,10 +20,6 @@ import java.util.Optional;
 @Service
 public class LojaService {
 
-
-   
-
-
     @Autowired
     private LojaRepository repository;
     // Cadastrando a loja
@@ -58,5 +54,9 @@ public class LojaService {
         findById(loja.getId());
         return repository.save(loja);  
                  
+    }
+
+    public Loja findByCnpj(String cnpj) {
+        return repository.findByCnpj(cnpj);
     }
 }

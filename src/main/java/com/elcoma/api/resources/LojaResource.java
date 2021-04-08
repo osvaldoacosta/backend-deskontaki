@@ -22,6 +22,7 @@ public class LojaResource {
         Loja loja = service.findById(id);
         return ResponseEntity.ok().body(loja);
     }
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody Loja loja){
         loja = service.insert(loja);
@@ -48,7 +49,12 @@ public class LojaResource {
         List<Loja> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
-  
+
+    @RequestMapping(value = "/{cnpj}", method = RequestMethod.GET)
+    public ResponseEntity<Loja> findByCnpj(@PathVariable String cnpj){
+        Loja loja = service.findByCnpj(cnpj);
+        return null;
+    }
   
   
 }
