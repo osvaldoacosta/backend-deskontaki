@@ -45,8 +45,12 @@ public class NotaFiscalResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@Valid @RequestBody String url){
-        service.register(url);
+    public ResponseEntity<Void> register(@Valid @RequestBody NotaFiscal notaFiscal) {
+        service.register(notaFiscal.getUrl());
         return ResponseEntity.noContent().build();
     }
+    /*public ResponseEntity<Void> register(@Valid @RequestBody String url){
+        service.register(url);
+        return ResponseEntity.noContent().build();
+    }*/
 }
