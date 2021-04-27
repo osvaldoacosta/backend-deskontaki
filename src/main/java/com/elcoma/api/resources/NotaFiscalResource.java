@@ -31,7 +31,6 @@ public class NotaFiscalResource {
         return ResponseEntity.noContent().build();
     }
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         service.delete(id);
@@ -49,8 +48,5 @@ public class NotaFiscalResource {
         service.register(notaFiscal.getUrl());
         return ResponseEntity.noContent().build();
     }
-    /*public ResponseEntity<Void> register(@Valid @RequestBody String url){
-        service.register(url);
-        return ResponseEntity.noContent().build();
-    }*/
+
 }

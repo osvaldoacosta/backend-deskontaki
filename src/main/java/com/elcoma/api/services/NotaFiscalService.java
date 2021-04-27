@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,14 +62,15 @@ public class NotaFiscalService {
         try{
             Document doc =Jsoup.connect(""+url).get();
             String erro = doc.getElementsByTag("erro").first().text();
-
             if(erro.equals("")){
                 Usuario usuario = usuarioService.findByCpf(doc.getElementsByTag("CPF").first().text());
                 Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
-                double valorNotaFiscal = Double.parseDouble(doc.getElementsByTag("vNF").first().text());
-                String key = doc.getElementsByTag("infNFe").first().id();
-
-                NotaFiscal notaFiscal = new NotaFiscal(null, valorNotaFiscal, key, url, usuario, loja);
+                NotaFiscal notaFiscal = new NotaFiscal(null,
+                        Double.parseDouble(doc.getElementsByTag("vNF").first().text()),
+                        doc.getElementsByTag("infNFe").first().id(),
+                        url,
+                        doc.getElementsByTag("dhEmi").first().text(),
+                        usuario, loja);
                 repository.save(notaFiscal);
             }
 
