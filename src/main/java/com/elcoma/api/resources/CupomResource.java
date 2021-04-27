@@ -1,7 +1,9 @@
 package com.elcoma.api.resources;
 
 import com.elcoma.api.domain.Cupom;
+import com.elcoma.api.services.ClienteService;
 import com.elcoma.api.services.CupomService;
+import com.elcoma.api.services.LojaService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequestMapping(value = "/cupons")
 public class CupomResource {
 
+
     @Autowired
     private CupomService service;
 
@@ -26,6 +29,10 @@ public class CupomResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cupom.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+
+
+
     //get by id
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> buscar(@PathVariable Integer id) throws ObjectNotFoundException {
@@ -55,9 +62,11 @@ public class CupomResource {
     }
 
     @RequestMapping(value = "/{id}/{mes}", method = RequestMethod.GET)
-    public ResponseEntity<List<Cupom>> findAllByMothAndUsuario(@PathVariable Integer id, @PathVariable String mes){
-        List<Cupom> list = service.findAllByMothAndUsuario(mes, id);
+    public ResponseEntity<List<Cupom>> findAllByMonthAndUser(@PathVariable Integer id, @PathVariable String mes){
+        List<Cupom> list = service.findAllByMonthAndUser(mes, id);
         return  ResponseEntity.ok().body(list);
     }
+
+
 }
 
