@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +37,6 @@ public class NotaFiscalService {
         notaFiscal = repository.save(notaFiscal);
         return notaFiscal;
     }
-
     public NotaFiscal findById(Integer id){
         Optional<NotaFiscal> notaFiscal = repository.findById(id);
 
@@ -41,23 +44,18 @@ public class NotaFiscalService {
                 "Objeto não encontrado: Id: "+ id + ", Tipo: " + NotaFiscal.class.getName()
         ));
     }
-
-
     public NotaFiscal update(NotaFiscal notaFiscal) {
         findById(notaFiscal.getId());
         return repository.save(notaFiscal);
 
     }
-
     public void delete(Integer id){
         findById(id);
         repository.deleteById(id);
     }
-
     public List<NotaFiscal> findAll(){
         return  repository.findAll();
     }
-
     public void register(String url) {
         try{
             Document doc =Jsoup.connect(""+url).get();
@@ -65,17 +63,28 @@ public class NotaFiscalService {
             if(erro.equals("")){
                 Usuario usuario = usuarioService.findByCpf(doc.getElementsByTag("CPF").first().text());
                 Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
+                //String dateString = doc.getElementsByTag("dhEmi").first().text().substring(0,10);
+                /*DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ssz");
+                OffsetDateTime offsetDateTime = OffsetDateTime.parse(dateString, dateTimeFormatter);*/
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi").first().text().substring(0,10));
+
                 NotaFiscal notaFiscal = new NotaFiscal(null,
                         Double.parseDouble(doc.getElementsByTag("vNF").first().text()),
                         doc.getElementsByTag("infNFe").first().id(),
                         url,
-                        doc.getElementsByTag("dhEmi").first().text(),
-                        usuario, loja);
+                        dataEmissao,
+                        usuario,
+                        loja);
                 repository.save(notaFiscal);
             }
 
-        }catch (IOException e){
+        }catch (IOException | ParseException e){
 
         }
+    }
+
+    public List<NotaFiscal> findByYear(String year) {
+        return repository.findByYear(year);
     }
 }

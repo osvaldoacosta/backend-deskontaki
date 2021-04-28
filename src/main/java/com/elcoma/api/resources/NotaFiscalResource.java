@@ -49,4 +49,10 @@ public class NotaFiscalResource {
         return ResponseEntity.noContent().build();
     }
 
+    @RequestMapping(value ="/year/{year}", method = RequestMethod.GET)
+    public ResponseEntity<List<NotaFiscal>> findByYear(@PathVariable String year){
+        List<NotaFiscal> list = service.findByYear(year);
+        return ResponseEntity.ok().body(list);
+    }
+
 }
