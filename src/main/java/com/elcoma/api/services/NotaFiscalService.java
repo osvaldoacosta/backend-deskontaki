@@ -3,6 +3,7 @@ package com.elcoma.api.services;
 import com.elcoma.api.domain.Loja;
 import com.elcoma.api.domain.NotaFiscal;
 import com.elcoma.api.domain.Usuario;
+import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.repositories.NotaFiscalRepository;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
 import org.jsoup.Jsoup;
@@ -17,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -84,7 +86,18 @@ public class NotaFiscalService {
         }
     }
 
-    public List<NotaFiscal> findByYear(String year) {
-        return repository.findByYear(year);
+    public List<NotaFiscalDTO> findByYear(String year) {
+        List<NotaFiscal> notaFiscalList = repository.findByYear(year);
+        List<NotaFiscalDTO> notaFiscalDTOList = new ArrayList<>();
+        for (NotaFiscal notaFiscal : notaFiscalList){
+            NotaFiscalDTO notaFiscalDTO = new NotaFiscalDTO(
+                    notaFiscal.getKey(),
+                    notaFiscal.getValor(),
+                    notaFiscal.getDataEmissao(),
+                    notaFiscal.getUsuario().getCpf()
+            );
+            notaFiscalDTOList.add(notaFiscalDTO);
+        }
+        return notaFiscalDTOList;
     }
 }

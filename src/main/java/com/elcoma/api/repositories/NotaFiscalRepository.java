@@ -12,6 +12,6 @@ import java.util.List;
 public interface NotaFiscalRepository extends JpaRepository<NotaFiscal, Integer> {
 
 
-    @Query(value = "SELECT * FROM tb_notafiscal nf WHERE year(nf.data_emissao) = :year ; ", nativeQuery = true)
+    @Query(value = " SELECT * FROM tb_notafiscal nf WHERE year(nf.data_emissao) = :year ; ", nativeQuery = true)
     public List<NotaFiscal> findByYear(@Param("year")String year);
 }

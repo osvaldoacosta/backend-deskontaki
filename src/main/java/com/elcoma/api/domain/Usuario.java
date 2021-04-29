@@ -26,18 +26,17 @@ public class Usuario implements Serializable {
     private String sexo;
     private String email;
     private String senha;
-
-    @OneToMany(mappedBy = "usuario")
-    @JsonIgnore
-    private List<NotaFiscal> notasFiscais = new ArrayList<>();
-
-
     @JsonFormat(pattern = "dd/MM/yyyy")
     private String nascimento;
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
+    private List<NotaFiscal> notasFiscais = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
     private List<UsuarioCupom> listUsuarioCupom = new ArrayList();
+
     public Usuario(){}
 
     public Usuario(int id, String cpf, String nome, String endereco, String sexo, String email, String nascimento, String senha) {

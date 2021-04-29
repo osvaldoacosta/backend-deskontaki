@@ -1,6 +1,7 @@
 package com.elcoma.api.resources;
 
 import com.elcoma.api.domain.NotaFiscal;
+import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.services.NotaFiscalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,9 +51,8 @@ public class NotaFiscalResource {
     }
 
     @RequestMapping(value ="/year/{year}", method = RequestMethod.GET)
-    public ResponseEntity<List<NotaFiscal>> findByYear(@PathVariable String year){
-        List<NotaFiscal> list = service.findByYear(year);
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity<List<NotaFiscalDTO>> findByYear(@PathVariable String year){
+        return ResponseEntity.ok().body(service.findByYear(year));
     }
 
 }
