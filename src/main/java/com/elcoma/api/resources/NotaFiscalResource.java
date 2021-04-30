@@ -1,14 +1,12 @@
 package com.elcoma.api.resources;
 
 import com.elcoma.api.domain.NotaFiscal;
+import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.services.NotaFiscalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,7 +29,6 @@ public class NotaFiscalResource {
         return ResponseEntity.noContent().build();
     }
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         service.delete(id);
@@ -49,8 +46,10 @@ public class NotaFiscalResource {
         service.register(notaFiscal.getUrl());
         return ResponseEntity.noContent().build();
     }
-    /*public ResponseEntity<Void> register(@Valid @RequestBody String url){
-        service.register(url);
-        return ResponseEntity.noContent().build();
-    }*/
+
+    @RequestMapping(value ="/year/{year}", method = RequestMethod.GET)
+    public ResponseEntity<List<NotaFiscalDTO>> findByYear(@PathVariable String year){
+        return ResponseEntity.ok().body(service.findByYear(year));
+    }
+
 }
