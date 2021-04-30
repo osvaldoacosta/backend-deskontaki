@@ -27,11 +27,12 @@ public class UsuarioResource {
     private UsuarioService service;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody Usuario usuario) {
+    public ResponseEntity<Integer> insert(@Valid @RequestBody Usuario usuario) {
         usuario = service.insert(usuario);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+        /*URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).build();*/
+        return ResponseEntity.ok().body(usuario.getId());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
