@@ -55,4 +55,9 @@ public class CupomService {
         List<Cupom> cupom = repository.findAllByMothAndUsuario(mes, id_usuario);
         return cupom;
     }
+
+    public void updateStatus(Integer idCupom, Integer idUsuario, String status) {
+        findById(idCupom);
+        repository.updateStatus(idCupom, idUsuario, status);
+    }
 }

@@ -40,13 +40,12 @@ public class CupomResource {
     }
 
     //metodo put
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+   /* @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@RequestBody Cupom cupom, @PathVariable Integer id) {
         cupom.setId(id);
         service.update(cupom);
-
         return ResponseEntity.noContent().build();
-    }
+    }*/
     //delete
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id){
@@ -59,5 +58,15 @@ public class CupomResource {
         List<Cupom> list = service.findAllByMothAndUsuario(mes, id);
         return  ResponseEntity.ok().body(list);
     }
+
+    @RequestMapping( method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateStatus(@RequestParam Integer idUsuario,
+                                             @RequestParam Integer idCupom,
+                                             @RequestParam String status){
+        service.updateStatus(idCupom, idUsuario, status);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
 

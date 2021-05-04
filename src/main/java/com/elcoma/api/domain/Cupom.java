@@ -28,10 +28,6 @@ public class Cupom implements Serializable {
     @JoinColumn(name = "id_loja")
     private Loja loja;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "cupom")
-    private List<UsuarioCupom> listUsuarioCupom = new ArrayList();
-
     public Cupom() {
     }
 
