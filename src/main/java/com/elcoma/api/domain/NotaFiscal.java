@@ -1,10 +1,12 @@
 package com.elcoma.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -19,6 +21,9 @@ public class NotaFiscal implements Serializable{
     @Column(name = "key_nfce")
     private String key;
     private String url;
+    @Column(name= "data_emissao")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date dataEmissao;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
@@ -35,12 +40,13 @@ public class NotaFiscal implements Serializable{
     public NotaFiscal() {
     }
 
-    public NotaFiscal(Integer id, Double valor, String key, String url, Usuario usuario, Loja loja) {
+    public NotaFiscal(Integer id, Double valor, String key, String url, Date dataEmissao, Usuario usuario, Loja loja) {
         this.id = id;
         this.valor = valor;
         this.usuario = usuario;
         this.loja= loja;
         this.url = url;
         this.key = key;
+        this.dataEmissao = dataEmissao;
     }
 }
