@@ -25,4 +25,10 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
     public void updateStatus(@Param("idCupom")Integer idCupom,
                              @Param("idUsuario")Integer idUsuario,
                              @Param("status")String status);
+    @Modifying
+    @Transactional
+    @Query(value = " INSERT tb_usuario_cupom (id_cupom, id_usuario, status) " +
+                   " VALUES(:idCupom, :idUsuario, 'D') ", nativeQuery = true)
+    public void sendCuponsForUsuarios(@Param("idCupom")Integer idCupom,
+                                      @Param("idUsuario")Integer idUsuario);
 }

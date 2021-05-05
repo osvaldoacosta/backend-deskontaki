@@ -19,34 +19,25 @@ public class CupomResource {
     @Autowired
     private CupomService service;
 
-    //metodo post
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody Cupom cupom) {
-        cupom = service.insert(cupom);
+    @RequestMapping(value = "/{idPerfil}",method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody Cupom cupom, @PathVariable Integer idPerfil) {
+        cupom = service.insert(cupom, idPerfil);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cupom.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
-    //get by id
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> buscar(@PathVariable Integer id) throws ObjectNotFoundException {
         Cupom obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
     }
-    //get all
+
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Cupom>> findAll() {
         List<Cupom> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    //metodo put
-   /* @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Cupom cupom, @PathVariable Integer id) {
-        cupom.setId(id);
-        service.update(cupom);
-        return ResponseEntity.noContent().build();
-    }*/
-    //delete
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         service.delete(id);
@@ -61,11 +52,12 @@ public class CupomResource {
 
     @RequestMapping( method = RequestMethod.PUT)
     public ResponseEntity<Void> updateStatus(@RequestParam Integer idUsuario,
-                                             @RequestParam Integer idCupom,
-                                             @RequestParam String status){
-        service.updateStatus(idCupom, idUsuario, status);
+                                             @RequestParam Integer idCupom){
+        service.updateStatus(idCupom, idUsuario);
         return ResponseEntity.noContent().build();
     }
+
+
 
 
 }

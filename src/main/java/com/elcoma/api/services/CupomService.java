@@ -5,6 +5,7 @@ import com.elcoma.api.domain.Loja;
 import com.elcoma.api.domain.Usuario;
 import com.elcoma.api.repositories.CupomRepository;
 
+import com.elcoma.api.repositories.UsuarioRepository;
 import com.elcoma.api.services.exceptions.DataIntegretyException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,14 @@ public class CupomService {
 
     @Autowired
     private CupomRepository repository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Transactional
-    public Cupom insert(Cupom cupom){
+    public Cupom insert(Cupom cupom, Integer idPerfil){
         cupom.setId(null);
         cupom = repository.save(cupom);
+        sendCuponsForUsuarios(cupom.getId(), idPerfil);
         return cupom;
     }
 
@@ -56,8 +60,16 @@ public class CupomService {
         return cupom;
     }
 
-    public void updateStatus(Integer idCupom, Integer idUsuario, String status) {
+    public void updateStatus(Integer idCupom, Integer idUsuario) {
         findById(idCupom);
+        String status = "U";
         repository.updateStatus(idCupom, idUsuario, status);
+    }
+
+    public void sendCuponsForUsuarios(Integer idCupom, Integer idPerfil){
+        List<Usuario> usuarioList = usuarioRepository.findAllByPerfil(idPerfil);
+        for (Usuario usuario: usuarioList ){
+            repository.sendCuponsForUsuarios(idCupom, usuario.getId());
+        }
     }
 }

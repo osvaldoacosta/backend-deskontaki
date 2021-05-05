@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -19,8 +20,8 @@ public class Cupom implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private String validade;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date validade;
 
     private Double valor;
 
@@ -31,7 +32,7 @@ public class Cupom implements Serializable {
     public Cupom() {
     }
 
-    public Cupom(Integer id, String validade, Double valor) {
+    public Cupom(Integer id, Date validade, Double valor) {
         this.id = id;
         this.validade = validade;
         this.valor = valor;
