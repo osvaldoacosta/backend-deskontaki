@@ -54,19 +54,18 @@ public class NotaFiscalService {
     public List<NotaFiscal> findAll(){
         return  repository.findAll();
     }
+
     public void register(String url) {
         try{
             Document doc =Jsoup.connect(""+url).get();
             String erro = doc.getElementsByTag("erro").first().text();
             if(erro.equals("")){
-                Usuario usuario = usuarioService.findByCpf(doc.getElementsByTag("CPF").first().text());
+                Usuario usuario = usuarioService.findByCpf(doc.getElementsByTag("CPF")
+                                                                              .first().text());
                 Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
-                //String dateString = doc.getElementsByTag("dhEmi").first().text().substring(0,10);
-                /*DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ssz");
-                OffsetDateTime offsetDateTime = OffsetDateTime.parse(dateString, dateTimeFormatter);*/
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi").first().text().substring(0,10));
-
+                Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi")
+                                                     .first().text().substring(0,10));
                 NotaFiscal notaFiscal = new NotaFiscal(null,
                         Double.parseDouble(doc.getElementsByTag("vNF").first().text()),
                         doc.getElementsByTag("infNFe").first().id(),

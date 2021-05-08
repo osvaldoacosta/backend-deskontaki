@@ -3,6 +3,7 @@ package com.elcoma.api.services;
 import com.elcoma.api.domain.Cupom;
 import com.elcoma.api.domain.Loja;
 import com.elcoma.api.domain.Usuario;
+import com.elcoma.api.dto.CupomDTO;
 import com.elcoma.api.repositories.CupomRepository;
 
 import com.elcoma.api.repositories.UsuarioRepository;
@@ -13,6 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,5 +73,26 @@ public class CupomService {
         for (Usuario usuario: usuarioList ){
             repository.sendCuponsForUsuarios(idCupom, usuario.getId());
         }
+    }
+
+    public List<CupomDTO> findAllByLojaAndUsuario(String nomeLoja, Integer idUsuario) {
+        if(!nomeLoja.equals("")){
+            nomeLoja = nomeLoja+'%';
+        }
+        List<Cupom> cupomList = repository.findAllByLojaAndUsuario(nomeLoja, idUsuario);
+        List<CupomDTO> cupomDTOList = new ArrayList<>();
+        for (Cupom cupom : cupomList){
+            CupomDTO cupomDTO = new CupomDTO(
+                    cupom.getId(),
+                    cupom.getTitulo(),
+                    cupom.getDescricao(),
+                    cupom.getValidade(),
+                    cupom.getValor(),
+                    cupom.getLoja().getId(),
+                    cupom.getLoja().getNome()
+            );
+            cupomDTOList.add(cupomDTO);
+        }
+        return  cupomDTOList;
     }
 }

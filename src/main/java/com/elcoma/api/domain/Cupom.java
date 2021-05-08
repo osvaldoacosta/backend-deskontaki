@@ -24,6 +24,9 @@ public class Cupom implements Serializable {
     private Date validade;
 
     private Double valor;
+    private String titulo;
+    private String descricao;
+    private String categoria;
 
     @ManyToOne
     @JoinColumn(name = "id_loja")

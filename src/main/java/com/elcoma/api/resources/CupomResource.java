@@ -1,6 +1,7 @@
 package com.elcoma.api.resources;
 
 import com.elcoma.api.domain.Cupom;
+import com.elcoma.api.dto.CupomDTO;
 import com.elcoma.api.services.CupomService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.security.Provider;
 import java.util.List;
 
 @RestController
@@ -57,8 +59,17 @@ public class CupomResource {
         return ResponseEntity.noContent().build();
     }
 
+    @RequestMapping(value = "/loja", method = RequestMethod.GET)
+    public ResponseEntity<List<CupomDTO>> findAllByLojaAndUsuario(@RequestParam String nomeLoja,
+                                                                  @RequestParam Integer idUsuario){
+        List<CupomDTO> list = service.findAllByLojaAndUsuario(nomeLoja, idUsuario);
+        return ResponseEntity.ok().body(list);
+    }
 
-
-
+    /*@RequestMapping(value = "/categoria", method = RequestMethod.GET)
+    public ResponseEntity<List<CupomDTO>> findAllByLojaAndUsuario(@RequestParam Integer idLoja, @RequestParam Integer idUsuario){
+        List<CupomDTO> list = service.findAllByLojaAndUsuario(idLoja, idUsuario);
+        return ResponseEntity.ok().body(list);
+    }*/
 }
 
