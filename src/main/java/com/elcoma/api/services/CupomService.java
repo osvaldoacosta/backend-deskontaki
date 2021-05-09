@@ -95,4 +95,22 @@ public class CupomService {
         }
         return  cupomDTOList;
     }
+
+    public List<CupomDTO> findAllByCategoriaAndUsuario(String categoria, Integer idUsuario) {
+        List<Cupom> cupomList = repository.findAllByCategoriaAndUsuario(categoria, idUsuario);
+        List<CupomDTO> cupomDTOList = new ArrayList<>();
+        for (Cupom cupom : cupomList){
+            CupomDTO cupomDTO = new CupomDTO(
+                    cupom.getId(),
+                    cupom.getTitulo(),
+                    cupom.getDescricao(),
+                    cupom.getValidade(),
+                    cupom.getValor(),
+                    cupom.getLoja().getId(),
+                    cupom.getLoja().getNome()
+            );
+            cupomDTOList.add(cupomDTO);
+        }
+        return  cupomDTOList;
+    }
 }

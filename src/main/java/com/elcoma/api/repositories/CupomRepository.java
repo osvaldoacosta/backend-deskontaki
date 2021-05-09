@@ -48,4 +48,17 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
                     " l.nome LIKE :nome_loja AND uc.id_usuario = :id_usuario ", nativeQuery = true)
     public List<Cupom> findAllByLojaAndUsuario( @Param("nome_loja")String nomeLoja,
                                                @Param("id_usuario")Integer idUsuario);
+
+    @Query(value =  "SELECT c.id, c.titulo , c.descricao, c.valor, c.data_inicial," +
+            " c.validade, c.id_loja, c.categoria " +
+            " FROM " +
+            " tb_cupom c " +
+            " INNER JOIN " +
+            " tb_usuario_cupom uc " +
+            " ON " +
+            " c.id = uc.id_cupom " +
+            " WHERE " +
+            " c.categoria LIKE :categoria AND uc.id_usuario = :id_usuario ", nativeQuery = true)
+    List<Cupom> findAllByCategoriaAndUsuario(@Param("categoria") String categoria,
+                                             @Param("id_usuario") Integer idUsuario);
 }
