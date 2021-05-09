@@ -59,4 +59,6 @@ public class LojaService {
     public Loja findByCnpj(String cnpj) {
         return repository.findByCnpj(cnpj);
     }
+
+
 }

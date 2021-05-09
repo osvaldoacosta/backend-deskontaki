@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CupomRepository extends JpaRepository<Cupom, Integer> {
@@ -48,4 +49,8 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
                     " l.nome LIKE :nome_loja AND uc.id_usuario = :id_usuario ", nativeQuery = true)
     public List<Cupom> findAllByLojaAndUsuario( @Param("nome_loja")String nomeLoja,
                                                @Param("id_usuario")Integer idUsuario);
+
+    @Query(value = "SELECT c FROM tb_cupom c WHERE c.id_loja = :idLoja AND c.id = :cupomId")
+    Optional<Cupom> findCompanyCoupon(Integer idLoja, Integer cupomId);
+
 }

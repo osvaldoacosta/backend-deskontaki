@@ -1,22 +1,20 @@
 package com.elcoma.api.services;
-
 import com.elcoma.api.domain.Cupom;
 import com.elcoma.api.domain.Loja;
 import com.elcoma.api.domain.Usuario;
 import com.elcoma.api.dto.CupomDTO;
 import com.elcoma.api.repositories.CupomRepository;
-
 import com.elcoma.api.repositories.UsuarioRepository;
 import com.elcoma.api.services.exceptions.DataIntegretyException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class CupomService {
@@ -56,12 +54,11 @@ public class CupomService {
         }
     }
 
-    public List<Cupom> findAllByMothAndUsuario(String mes, Integer id_usuario){
+    public List<Cupom> findAllByMonthAndUser(String mes, Integer id_usuario){
         findById(id_usuario);
-        List<Cupom> cupom = repository.findAllByMothAndUsuario(mes, id_usuario);
+        List<Cupom> cupom = repository.findAllByMonthAndUser(mes, id_usuario);
         return cupom;
     }
-
     public void updateStatus(Integer idCupom, Integer idUsuario) {
         findById(idCupom);
         String status = "U";

@@ -6,9 +6,13 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.elcoma.api.domain.Cliente;
+import com.elcoma.api.domain.Cupom;
+import com.elcoma.api.repositories.LojaRepository;
 import com.elcoma.api.services.ClienteService;
 
+import com.elcoma.api.services.LojaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,6 +23,22 @@ public class ClienteResource {
 
     @Autowired
     private ClienteService service;
+
+    @Autowired
+    private LojaService lojaService;
+
+    @Autowired
+    private LojaResource lojaResource;
+
+    @PostMapping("/cupons")
+    public ResponseEntity<?> createCoupon(@RequestBody Cupom cupom) {
+        try {
+            service.createCoupon(lojaResource.find(), cupom);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (CouponSystemException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody Cliente cliente){
@@ -47,6 +67,8 @@ public class ClienteResource {
         cliente = service.update(cliente);
         return ResponseEntity.noContent().build();
     }
+
+
 
 
 
