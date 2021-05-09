@@ -43,11 +43,17 @@ public class UsuarioService {
         return listDto;
     }
 
-    public Usuario update(Usuario usuario, String cpf) {
-        findByCpf(cpf);
+    public Usuario update(Usuario usuario, Integer id) {
+        Usuario oldUsuario = findById(id);
+        usuario.setId(oldUsuario.getId());
+        if(usuario.getSenha() == null){
+            usuario.setSenha(oldUsuario.getSenha());
+        }
+        if(usuario.getCpf()== null){
+            usuario.setCpf(oldUsuario.getCpf());
+        }
         return repository.save(usuario);
     }
-
     public Usuario findByCpf(String cpf) {
         Optional<Usuario> usuario = repository.findByCpf(cpf);
         return usuario.orElseThrow(() -> new ObjectNotFoundException(

@@ -1,16 +1,17 @@
 package com.elcoma.api.services;
-
 import com.elcoma.api.domain.Cupom;
-
+import com.elcoma.api.domain.Loja;
+import com.elcoma.api.domain.Usuario;
+import com.elcoma.api.dto.CupomDTO;
 import com.elcoma.api.repositories.CupomRepository;
-
+import com.elcoma.api.repositories.UsuarioRepository;
 import com.elcoma.api.services.exceptions.DataIntegretyException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -20,11 +21,14 @@ public class CupomService {
 
     @Autowired
     private CupomRepository repository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Transactional
-    public Cupom insert(Cupom cupom){
+    public Cupom insert(Cupom cupom, Integer idPerfil){
         cupom.setId(null);
         cupom = repository.save(cupom);
+        sendCuponsForUsuarios(cupom.getId(), idPerfil);
         return cupom;
     }
 
@@ -55,8 +59,37 @@ public class CupomService {
         List<Cupom> cupom = repository.findAllByMonthAndUser(mes, id_usuario);
         return cupom;
     }
+    public void updateStatus(Integer idCupom, Integer idUsuario) {
+        findById(idCupom);
+        String status = "U";
+        repository.updateStatus(idCupom, idUsuario, status);
+    }
 
+    public void sendCuponsForUsuarios(Integer idCupom, Integer idPerfil){
+        List<Usuario> usuarioList = usuarioRepository.findAllByPerfil(idPerfil);
+        for (Usuario usuario: usuarioList ){
+            repository.sendCuponsForUsuarios(idCupom, usuario.getId());
+        }
+    }
 
-
-
+    public List<CupomDTO> findAllByLojaAndUsuario(String nomeLoja, Integer idUsuario) {
+        if(!nomeLoja.equals("")){
+            nomeLoja = nomeLoja+'%';
+        }
+        List<Cupom> cupomList = repository.findAllByLojaAndUsuario(nomeLoja, idUsuario);
+        List<CupomDTO> cupomDTOList = new ArrayList<>();
+        for (Cupom cupom : cupomList){
+            CupomDTO cupomDTO = new CupomDTO(
+                    cupom.getId(),
+                    cupom.getTitulo(),
+                    cupom.getDescricao(),
+                    cupom.getValidade(),
+                    cupom.getValor(),
+                    cupom.getLoja().getId(),
+                    cupom.getLoja().getNome()
+            );
+            cupomDTOList.add(cupomDTO);
+        }
+        return  cupomDTOList;
+    }
 }

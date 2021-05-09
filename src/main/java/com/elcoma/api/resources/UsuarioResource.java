@@ -53,9 +53,9 @@ public class UsuarioResource {
         return ResponseEntity.ok().body(listDto);
     }
 
-    @RequestMapping(value = "/{cpf}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Valid @RequestBody Usuario usuario, @PathVariable String cpf) {
-        usuario = service.update(usuario, cpf);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(@Valid @RequestBody Usuario usuario, @PathVariable Integer id) {
+        usuario = service.update(usuario, id);
         return ResponseEntity.noContent().build();
     }
 }

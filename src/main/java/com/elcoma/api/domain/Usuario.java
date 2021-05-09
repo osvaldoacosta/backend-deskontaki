@@ -33,9 +33,6 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "usuario")
     private List<NotaFiscal> notasFiscais = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario")
-    private List<UsuarioCupom> listUsuarioCupom = new ArrayList();
 
     public Usuario(){}
 
