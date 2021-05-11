@@ -30,16 +30,6 @@ public class ClienteResource {
     @Autowired
     private LojaResource lojaResource;
 
-    @PostMapping("/cupons")
-    public ResponseEntity<?> createCoupon(@RequestBody Cupom cupom) {
-        try {
-            service.createCoupon(lojaResource.find(), cupom);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (CouponSystemException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody Cliente cliente){
         cliente = service.insert(cliente);
@@ -67,9 +57,4 @@ public class ClienteResource {
         cliente = service.update(cliente);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
 }

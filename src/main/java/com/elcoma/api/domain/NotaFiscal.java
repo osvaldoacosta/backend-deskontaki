@@ -33,10 +33,6 @@ public class NotaFiscal implements Serializable{
     @JoinColumn(name = "id_loja")
     private Loja loja;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "notaFiscal_fk")
-    private PerfilUsuario perfilUsuario;
-
     public NotaFiscal() {
     }
 
