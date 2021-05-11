@@ -56,7 +56,7 @@ public class CupomService {
 
     public List<Cupom> findAllByMonthAndUser(String mes, Integer id_usuario){
         findById(id_usuario);
-        List<Cupom> cupom = repository.findAllByMonthAndUser(mes, id_usuario);
+        List<Cupom> cupom = repository.findAllByMothAndUsuario(mes, id_usuario);
         return cupom;
     }
     public void updateStatus(Integer idCupom, Integer idUsuario) {

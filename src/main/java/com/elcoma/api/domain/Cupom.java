@@ -23,17 +23,13 @@ public class Cupom implements Serializable {
   
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date validade;
-
     private Integer quantidade;
-
     private Double valor;
     private String titulo;
     private String descricao;
     private String categoria;
-
-    @Enumerated(EnumType.STRING)
-    private CouponType tipoCupom;
-
+    /*@Enumerated(EnumType.STRING)
+    private CouponType tipoCupom;*/
     @ManyToOne
     @JoinColumn(name = "id_loja")
     private Loja loja;

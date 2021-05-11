@@ -18,18 +18,13 @@ public class PerfilUsuario implements Serializable {
     private String preferencias;
     private String horarios;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_nota_fiscal", referencedColumnName = "id")
-    NotaFiscal notaFiscal_fk;
-
     public PerfilUsuario() {
     }
 
-    public PerfilUsuario(Integer id, String obs, String preferencias, String horarios, NotaFiscal notaFiscal_fk) {
+    public PerfilUsuario(Integer id, String obs, String preferencias, String horarios) {
         this.id = id;
         this.obs = obs;
         this.preferencias = preferencias;
         this.horarios = horarios;
-        this.notaFiscal_fk = notaFiscal_fk;
     }
 }

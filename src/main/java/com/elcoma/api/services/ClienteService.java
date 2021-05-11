@@ -20,10 +20,6 @@ public class ClienteService
     @Autowired
     private ClienteRepository repository;
 
-    @Autowired
-    private CupomRepository couponRepository;
-
-
     public Cliente insert(Cliente cliente){
         cliente.setId(null);
         cliente = repository.save(cliente);
@@ -44,19 +40,4 @@ public class ClienteService
         findById(cliente.getId());
         return repository.save(cliente);
     }
-
-    public void createCoupon(Loja loja, Cupom cupom ) {
-        cupom.setLoja(loja);
-        couponRepository.save(cupom);
-
-    }
-
-    public Cupom getCompanyCoupon(Loja loja, Integer idCupom) throws CompanyDoesntOwnCoupon {
-        return couponRepository.findCompanyCoupon(loja.getId(), idCupom)
-                .orElseThrow(() -> new CompanyDoesntOwnCoupon("Você não possui esse cupom."));
-    }
-
-
-
-
 }
