@@ -27,9 +27,9 @@ public class Cupom implements Serializable {
     private Double valor;
     private String titulo;
     private String descricao;
-    private String categoria;
-    /*@Enumerated(EnumType.STRING)
-    private CouponType tipoCupom;*/
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
     @ManyToOne
     @JoinColumn(name = "id_loja")
     private Loja loja;

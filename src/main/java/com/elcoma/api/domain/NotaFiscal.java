@@ -24,11 +24,9 @@ public class NotaFiscal implements Serializable{
     @Column(name= "data_emissao")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dataEmissao;
-
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
-
     @ManyToOne
     @JoinColumn(name = "id_loja")
     private Loja loja;

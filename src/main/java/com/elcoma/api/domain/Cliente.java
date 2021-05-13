@@ -18,12 +18,9 @@ public class Cliente implements Serializable {
     private String cnpj;
     private String nome;
     private String endereco;
-
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private List<Loja> listLoja;
-
-
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private List<Propaganda> propagandas;
