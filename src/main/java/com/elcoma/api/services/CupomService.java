@@ -93,8 +93,8 @@ public class CupomService {
         return  cupomDTOList;
     }
 
-    public List<CupomDTO> findAllByCategoriaAndUsuario(String categoria, Integer idUsuario) {
-        List<Cupom> cupomList = repository.findAllByCategoriaAndUsuario(categoria, idUsuario);
+    public List<CupomDTO> findAllByCategoriaAndUsuario(Integer idCategoria, Integer idUsuario) {
+        List<Cupom> cupomList = repository.findAllByCategoriaAndUsuario(idCategoria, idUsuario);
         List<CupomDTO> cupomDTOList = new ArrayList<>();
         for (Cupom cupom : cupomList){
             CupomDTO cupomDTO = new CupomDTO(

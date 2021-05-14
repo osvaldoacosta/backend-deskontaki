@@ -67,9 +67,9 @@ public class CupomResource {
     }
 
     @RequestMapping(value = "/categoria", method = RequestMethod.GET)
-    public ResponseEntity<List<CupomDTO>> findAllByCategoriaAndUsuario(@RequestParam String categoria,
+    public ResponseEntity<List<CupomDTO>> findAllByCategoriaAndUsuario(@RequestParam Integer idCategoria,
                                                                        @RequestParam Integer idUsuario){
-        List<CupomDTO> list = service.findAllByCategoriaAndUsuario(categoria, idUsuario);
+        List<CupomDTO> list = service.findAllByCategoriaAndUsuario(idCategoria, idUsuario);
         return ResponseEntity.ok().body(list);
     }
 }
