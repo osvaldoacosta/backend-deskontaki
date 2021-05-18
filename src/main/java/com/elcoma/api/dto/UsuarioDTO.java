@@ -15,6 +15,6 @@ public class UsuarioDTO implements Serializable {
     private String cpf;
     private String nome;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private String dataNascimento;
+    private Date dataNascimento;
     private String sexo;
 }

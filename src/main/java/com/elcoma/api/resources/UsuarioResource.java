@@ -2,23 +2,15 @@ package com.elcoma.api.resources;
 
 import com.elcoma.api.domain.Usuario;
 import com.elcoma.api.dto.UsuarioDTO;
-import com.elcoma.api.repositories.UsuarioRepository;
 import com.elcoma.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/usuarios")
 public class UsuarioResource {

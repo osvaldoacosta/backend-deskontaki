@@ -26,13 +26,13 @@ public class Usuario implements Serializable {
     private String sexo;
     private String email;
     private String senha;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private String nascimento;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date nascimento;
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<NotaFiscal> notasFiscais = new ArrayList<>();
     public Usuario(){}
-    public Usuario(int id, String cpf, String nome, String endereco, String sexo, String email, String nascimento, String senha) {
+    public Usuario(int id, String cpf, String nome, String endereco, String sexo, String email, Date nascimento, String senha) {
         this.id = id;
         this.cpf = cpf;
         this.nome = nome;
