@@ -43,6 +43,7 @@ public class CupomService {
         findById(cupom.getId());
         return repository.save(cupom);
     }
+
     public List<Cupom> findAll(){return repository.findAll();}
 
     public void delete(Integer id){
@@ -76,6 +77,7 @@ public class CupomService {
         if(!nomeLoja.equals("")){
             nomeLoja = nomeLoja+'%';
         }
+
         List<Cupom> cupomList = repository.findAllByLojaAndUsuario(nomeLoja, idUsuario);
         List<CupomDTO> cupomDTOList = new ArrayList<>();
         for (Cupom cupom : cupomList){
@@ -95,6 +97,25 @@ public class CupomService {
 
     public List<CupomDTO> findAllByCategoriaAndUsuario(Integer idCategoria, Integer idUsuario) {
         List<Cupom> cupomList = repository.findAllByCategoriaAndUsuario(idCategoria, idUsuario);
+        List<CupomDTO> cupomDTOList = new ArrayList<>();
+        for (Cupom cupom : cupomList){
+            CupomDTO cupomDTO = new CupomDTO(
+                    cupom.getId(),
+                    cupom.getTitulo(),
+                    cupom.getDescricao(),
+                    cupom.getValidade(),
+                    cupom.getValor(),
+                    cupom.getLoja().getId(),
+                    cupom.getLoja().getNome()
+            );
+            cupomDTOList.add(cupomDTO);
+        }
+        return  cupomDTOList;
+    }
+
+
+    public List<CupomDTO> findAllByUsuario(Integer id) {
+        List<Cupom> cupomList = repository.findAllByUsuario(id);
         List<CupomDTO> cupomDTOList = new ArrayList<>();
         for (Cupom cupom : cupomList){
             CupomDTO cupomDTO = new CupomDTO(

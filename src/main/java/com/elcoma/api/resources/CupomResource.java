@@ -30,6 +30,7 @@ public class CupomResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cupom.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> buscar(@PathVariable Integer id) throws ObjectNotFoundException {
         Cupom obj = service.findById(id);
@@ -53,12 +54,14 @@ public class CupomResource {
         List<Cupom> list = service.findAllByMonthAndUser(mes, id);
         return  ResponseEntity.ok().body(list);
     }
+
     @RequestMapping( method = RequestMethod.PUT)
     public ResponseEntity<Void> updateStatus(@RequestParam Integer idUsuario,
                                              @RequestParam Integer idCupom){
         service.updateStatus(idCupom, idUsuario);
         return ResponseEntity.noContent().build();
     }
+
     @RequestMapping(value = "/loja", method = RequestMethod.GET)
     public ResponseEntity<List<CupomDTO>> findAllByLojaAndUsuario(@RequestParam String nomeLoja,
                                                                   @RequestParam Integer idUsuario){
@@ -71,6 +74,12 @@ public class CupomResource {
                                                                        @RequestParam Integer idUsuario){
         List<CupomDTO> list = service.findAllByCategoriaAndUsuario(idCategoria, idUsuario);
         return ResponseEntity.ok().body(list);
+    }
+
+    @RequestMapping(value = "/usuario/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<CupomDTO>> findAllByUsuario(@PathVariable Integer id){
+        List<CupomDTO> cupomDTOList = service.findAllByUsuario(id);
+        return ResponseEntity.ok().body(cupomDTOList);
     }
 }
 
