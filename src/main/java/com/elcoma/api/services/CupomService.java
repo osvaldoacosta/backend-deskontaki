@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +25,8 @@ public class CupomService {
     private CupomRepository repository;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Transactional
     public Cupom insert(Cupom cupom, Integer idPerfil){
@@ -56,8 +60,9 @@ public class CupomService {
     }
 
     public List<Cupom> findAllByMonthAndUser(String mes, Integer id_usuario){
-        findById(id_usuario);
-        List<Cupom> cupom = repository.findAllByMothAndUsuario(mes, id_usuario);
+        usuarioService.findById(id_usuario);
+        Integer ano =  LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).getYear();
+        List<Cupom> cupom = repository.findAllByMothAndUsuario(ano, mes, id_usuario);
         return cupom;
     }
     public void updateStatus(Integer idCupom, Integer idUsuario) {
@@ -85,6 +90,7 @@ public class CupomService {
                     cupom.getId(),
                     cupom.getTitulo(),
                     cupom.getDescricao(),
+                    cupom.getDataInicial(),
                     cupom.getValidade(),
                     cupom.getValor(),
                     cupom.getLoja().getId(),
@@ -103,6 +109,7 @@ public class CupomService {
                     cupom.getId(),
                     cupom.getTitulo(),
                     cupom.getDescricao(),
+                    cupom.getDataInicial(),
                     cupom.getValidade(),
                     cupom.getValor(),
                     cupom.getLoja().getId(),
@@ -122,6 +129,26 @@ public class CupomService {
                     cupom.getId(),
                     cupom.getTitulo(),
                     cupom.getDescricao(),
+                    cupom.getDataInicial(),
+                    cupom.getValidade(),
+                    cupom.getValor(),
+                    cupom.getLoja().getId(),
+                    cupom.getLoja().getNome()
+            );
+            cupomDTOList.add(cupomDTO);
+        }
+        return  cupomDTOList;
+    }
+
+    public List<CupomDTO> findAllByMothAndYear(String mes, String ano) {
+        List<Cupom> cupomList = repository.findAllByMothAndYear(mes, ano);
+        List<CupomDTO> cupomDTOList = new ArrayList<>();
+        for (Cupom cupom : cupomList){
+            CupomDTO cupomDTO = new CupomDTO(
+                    cupom.getId(),
+                    cupom.getTitulo(),
+                    cupom.getDescricao(),
+                    cupom.getDataInicial(),
                     cupom.getValidade(),
                     cupom.getValor(),
                     cupom.getLoja().getId(),

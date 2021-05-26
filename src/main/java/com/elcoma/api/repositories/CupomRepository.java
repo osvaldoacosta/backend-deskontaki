@@ -14,10 +14,14 @@ import java.util.Optional;
 @Repository
 public interface CupomRepository extends JpaRepository<Cupom, Integer> {
 
-    @Query(value = "SELECT c.id, c.validade, c.valor, c.id_loja FROM tb_cupom c " +
+    @Query(value = "SELECT * FROM tb_cupom c " +
             " inner join tb_usuario_cupom uc on uc.id_cupom = c.id " +
-            " where Month(uc.data_uso) = :mes and uc.id_usuario = :id_usuario ", nativeQuery = true)
-    public List<Cupom> findAllByMothAndUsuario(@Param("mes") String mes, @Param("id_usuario") Integer id_usuario);
+            " where Month(uc.data_uso) = :mes and " +
+            " year(uc.data_uso) = :ano and " +
+            " uc.id_usuario = :id_usuario ", nativeQuery = true)
+    public List<Cupom> findAllByMothAndUsuario(@Param("ano") Integer ano,
+                                               @Param("mes") String mes,
+                                               @Param("id_usuario") Integer id_usuario);
 
     @Modifying
     @Transactional
@@ -74,4 +78,9 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
             " WHERE " +
             " uc.id_usuario = :id_usuario ", nativeQuery = true)
     List<Cupom> findAllByUsuario(@Param("id_usuario") Integer id);
+
+    @Query(value = " SELECT * FROM tb_cupom c where " +
+            " Month(c.data_inicial) = :mes and " +
+            " year(c.data_inicial) = :ano ", nativeQuery = true)
+    List<Cupom> findAllByMothAndYear(String mes, String ano);
 }

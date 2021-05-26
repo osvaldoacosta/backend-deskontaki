@@ -57,7 +57,7 @@ public class NotaFiscalService {
 
     public void register(String url) {
         try{
-            Document doc =Jsoup.connect(""+url).get();
+            Document doc = Jsoup.connect(""+url).get();
             String erro = doc.getElementsByTag("erro").first().text();
             if(erro.equals("")){
                 Usuario usuario = usuarioService.findByCpf(doc.getElementsByTag("CPF")
@@ -75,12 +75,9 @@ public class NotaFiscalService {
                         loja);
                 repository.save(notaFiscal);
             }
-
         }catch (IOException | ParseException e){
-
         }
     }
-
     public List<NotaFiscalDTO> findByYear(String year) {
         List<NotaFiscal> notaFiscalList = repository.findByYear(year);
         List<NotaFiscalDTO> notaFiscalDTOList = new ArrayList<>();
