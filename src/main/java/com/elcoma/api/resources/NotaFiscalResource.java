@@ -44,7 +44,7 @@ public class NotaFiscalResource {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> register(@Valid @RequestBody NotaFiscal notaFiscal) {
         service.register(notaFiscal.getUrl());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value ="/year/{year}", method = RequestMethod.GET)

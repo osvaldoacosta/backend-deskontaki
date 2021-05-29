@@ -140,8 +140,8 @@ public class CupomService {
         return  cupomDTOList;
     }
 
-    public List<CupomDTO> findAllByMothAndYear(String mes, String ano) {
-        List<Cupom> cupomList = repository.findAllByMothAndYear(mes, ano);
+    public List<CupomDTO> findAllByMonthAndYear(String mes, String ano) {
+        List<Cupom> cupomList = repository.findAllByMonthAndYear(mes, ano);
         List<CupomDTO> cupomDTOList = new ArrayList<>();
         for (Cupom cupom : cupomList){
             CupomDTO cupomDTO = new CupomDTO(

@@ -85,7 +85,7 @@ public class CupomResource {
     @RequestMapping(value = "/mes/{mes}/{ano}", method = RequestMethod.GET)
     public ResponseEntity<List<CupomDTO>> findAllByMonthAndYear(@PathVariable String mes,
                                                                 @PathVariable String ano){
-        List<CupomDTO> cupomDTOList = service.findAllByMothAndYear(mes, ano);
+        List<CupomDTO> cupomDTOList = service.findAllByMonthAndYear(mes, ano);
         return ResponseEntity.ok().body(cupomDTOList);
     }
 }
