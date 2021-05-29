@@ -82,5 +82,5 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
     @Query(value = " SELECT * FROM tb_cupom c where " +
             " Month(c.data_inicial) = :mes and " +
             " year(c.data_inicial) = :ano ", nativeQuery = true)
-    List<Cupom> findAllByMothAndYear(String mes, String ano);
+    List<Cupom> findAllByMonthAndYear(String mes, String ano);
 }
