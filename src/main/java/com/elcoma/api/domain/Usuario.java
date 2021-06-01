@@ -26,7 +26,6 @@ public class Usuario implements Serializable {
     private String sexo;
     private String email;
     private String senha;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date nascimento;
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
