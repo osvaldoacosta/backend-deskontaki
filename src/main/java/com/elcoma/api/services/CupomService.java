@@ -29,10 +29,10 @@ public class CupomService {
     private UsuarioService usuarioService;
 
     @Transactional
-    public Cupom insert(Cupom cupom, Integer idPerfil){
+    public Cupom insert(Cupom cupom){
         cupom.setId(null);
         cupom = repository.save(cupom);
-        sendCuponsForUsuarios(cupom.getId(), idPerfil);
+        //sendCuponsForUsuarios(cupom.getId(), idPerfil);
         return cupom;
     }
 
