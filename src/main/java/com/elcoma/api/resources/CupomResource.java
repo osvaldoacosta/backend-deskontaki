@@ -24,9 +24,9 @@ public class CupomResource {
     @Autowired
     private CupomService service;
 
-    @RequestMapping(value = "/{idPerfil}",method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody Cupom cupom, @PathVariable Integer idPerfil) {
-        cupom = service.insert(cupom, idPerfil);
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody Cupom cupom) {
+        cupom = service.insert(cupom);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cupom.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
