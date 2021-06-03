@@ -1,12 +1,15 @@
 package com.elcoma.api.resources;
 
 import com.elcoma.api.domain.NotaFiscal;
+import com.elcoma.api.dto.LojaDTO;
 import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.services.NotaFiscalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -42,9 +45,9 @@ public class NotaFiscalResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@Valid @RequestBody NotaFiscal notaFiscal) {
-        service.register(notaFiscal.getUrl());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Object> register(@Valid @RequestBody NotaFiscal notaFiscal) throws IOException, ParseException {
+        LojaDTO lojaDTO = (LojaDTO) service.register(notaFiscal.getUrl());
+        return ResponseEntity.ok().body(lojaDTO);
     }
 
     @RequestMapping(value ="/year/{year}", method = RequestMethod.GET)
