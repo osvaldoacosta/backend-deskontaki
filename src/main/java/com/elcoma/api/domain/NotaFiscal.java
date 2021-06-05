@@ -24,6 +24,9 @@ public class NotaFiscal implements Serializable{
     @Column(name= "data_emissao")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dataEmissao;
+    @Column(name = "data_cadastro")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dataCadastro;
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
@@ -34,7 +37,8 @@ public class NotaFiscal implements Serializable{
     public NotaFiscal() {
     }
 
-    public NotaFiscal(Integer id, Double valor, String key, String url, Date dataEmissao, Usuario usuario, Loja loja) {
+    public NotaFiscal(Integer id, Double valor, String key, String url, Date dataEmissao,
+                      Date dataCadastro, Usuario usuario, Loja loja) {
         this.id = id;
         this.valor = valor;
         this.usuario = usuario;
@@ -42,5 +46,6 @@ public class NotaFiscal implements Serializable{
         this.url = url;
         this.key = key;
         this.dataEmissao = dataEmissao;
+        this.dataCadastro = dataCadastro;
     }
 }
