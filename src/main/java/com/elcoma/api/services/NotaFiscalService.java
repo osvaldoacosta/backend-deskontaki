@@ -111,9 +111,11 @@ public class NotaFiscalService {
         return notaFiscalDTOList;
     }
 
-    public List<NotaFiscal> findAllByUsuarioAndDataCadastro(Integer id, Date dataCadastro) {
+    public List<NotaFiscal> findAllByUsuarioAndDataCadastro(Integer id, String dataCadastro) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
+        Date dataCadastroFormat = format.parse(dataCadastro);
         Usuario usuario = usuarioService.findById(id);
-        List<NotaFiscal> notaFiscalList = repository.findAllByUsuarioAndDataCadastro(id, dataCadastro);
+        List<NotaFiscal> notaFiscalList = repository.findAllByUsuarioAndDataCadastro(id, dataCadastroFormat);
         return notaFiscalList;
     }
 }

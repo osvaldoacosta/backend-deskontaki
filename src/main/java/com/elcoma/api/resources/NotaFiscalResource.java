@@ -56,12 +56,12 @@ public class NotaFiscalResource {
         return ResponseEntity.ok().body(service.findByYear(year));
     }
 
-   @RequestMapping(value ="/totalnotas", method = RequestMethod.GET)
+   @RequestMapping(value ="/totalnotas/{idUsuario}/{dataCadastro}", method = RequestMethod.GET)
     public ResponseEntity<List<NotaFiscal>> findAllByUsuarioAndDataCadastro(
-                                                                @Valid @RequestBody NotaFiscal notaFiscal){
-        List<NotaFiscal> notaFiscalList = service.findAllByUsuarioAndDataCadastro(
-                                                                notaFiscal.getUsuario().getId(),
-                                                                notaFiscal.getDataCadastro());
+                                                                @PathVariable Integer idUsuario,
+                                                                @PathVariable String dataCadastro
+   ) throws ParseException {
+        List<NotaFiscal> notaFiscalList = service.findAllByUsuarioAndDataCadastro(idUsuario, dataCadastro.trim());
         return ResponseEntity.ok().body(notaFiscalList);
     }
 
