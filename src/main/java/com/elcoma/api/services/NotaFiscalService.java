@@ -15,12 +15,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class NotaFiscalService {
@@ -76,12 +74,13 @@ public class NotaFiscalService {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi")
                         .first().text().substring(0, 10));
-
+                Date dataAtual = new Date(System.currentTimeMillis());
                 NotaFiscal notaFiscal = new NotaFiscal(null,
                         Double.parseDouble(doc.getElementsByTag("vNF").first().text()),
                         doc.getElementsByTag("infNFe").first().id(),
                         url,
                         dataEmissao,
+                        dataAtual,
                         usuario,
                         loja);
                 repository.save(notaFiscal);
@@ -110,5 +109,11 @@ public class NotaFiscalService {
             notaFiscalDTOList.add(notaFiscalDTO);
         }
         return notaFiscalDTOList;
+    }
+
+    public List<NotaFiscal> findAllByUsuarioAndDataCadastro(Integer id, Date dataCadastro) {
+        Usuario usuario = usuarioService.findById(id);
+        List<NotaFiscal> notaFiscalList = repository.findAllByUsuarioAndDataCadastro(id, dataCadastro);
+        return notaFiscalList;
     }
 }

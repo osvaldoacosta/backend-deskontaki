@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -53,6 +54,15 @@ public class NotaFiscalResource {
     @RequestMapping(value ="/year/{year}", method = RequestMethod.GET)
     public ResponseEntity<List<NotaFiscalDTO>> findByYear(@PathVariable String year){
         return ResponseEntity.ok().body(service.findByYear(year));
+    }
+
+   @RequestMapping(value ="/totalnotas", method = RequestMethod.GET)
+    public ResponseEntity<List<NotaFiscal>> findAllByUsuarioAndDataCadastro(
+                                                                @Valid @RequestBody NotaFiscal notaFiscal){
+        List<NotaFiscal> notaFiscalList = service.findAllByUsuarioAndDataCadastro(
+                                                                notaFiscal.getUsuario().getId(),
+                                                                notaFiscal.getDataCadastro());
+        return ResponseEntity.ok().body(notaFiscalList);
     }
 
 }
