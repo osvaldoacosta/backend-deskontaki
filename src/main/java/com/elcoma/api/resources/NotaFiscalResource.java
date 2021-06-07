@@ -47,7 +47,7 @@ public class NotaFiscalResource {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Object> register(@Valid @RequestBody NotaFiscal notaFiscal) throws IOException, ParseException {
         LojaDTO lojaDTO = (LojaDTO) service.register(notaFiscal.getUrl());
-        return ResponseEntity.ok().body(lojaDTO);
+        return ResponseEntity.ok().body(lojaDTO.getNome());
     }
 
     @RequestMapping(value ="/year/{year}", method = RequestMethod.GET)
