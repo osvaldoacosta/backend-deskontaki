@@ -21,9 +21,6 @@ public class UsuarioResource {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Integer> insert(@Valid @RequestBody Usuario usuario) {
         usuario = service.insert(usuario);
-        /*URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).build();*/
         return ResponseEntity.ok().body(usuario.getId());
     }
 

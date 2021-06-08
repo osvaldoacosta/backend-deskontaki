@@ -7,6 +7,7 @@ import com.elcoma.api.dto.LojaDTO;
 import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.repositories.NotaFiscalRepository;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
+import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -60,38 +61,40 @@ public class NotaFiscalService {
         return repository.findAll();
     }
 
-    public Object register(String url) throws ParseException, IOException {
-        Document doc = Jsoup.connect("" + url).get();
-        String erro = doc.getElementsByTag("erro").first().text();
+    public LojaDTO register(String url) throws IOException {
         LojaDTO lojaDTO = new LojaDTO();
+        Document doc = Jsoup.connect("" + url).get();
+        try {
+            String erro = doc.getElementsByTag("erro").first().text();
+            if (erro.equals("")) {
+                Element elementoCpf = doc.getElementsByTag("CPF").first();
+                if (elementoCpf != null) {
+                    Usuario usuario = usuarioService.findByCpf(elementoCpf.text());
+                    Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi")
+                            .first().text().substring(0, 10));
+                    Date dataAtual = new Date(System.currentTimeMillis());
+                    NotaFiscal notaFiscal = new NotaFiscal(null,
+                            Double.parseDouble(doc.getElementsByTag("vNF").first().text()),
+                            doc.getElementsByTag("infNFe").first().id(),
+                            url,
+                            dataEmissao,
+                            dataAtual,
+                            usuario,
+                            loja);
+                    repository.save(notaFiscal);
 
-        if (erro.equals("")) {
-            Element elementoCpf = doc.getElementsByTag("CPF").first();
-            if (elementoCpf != null) {
+                    lojaDTO.setCnpj(loja.getCnpj());
+                    lojaDTO.setId(loja.getId());
+                    lojaDTO.setNome(loja.getNome());
 
-                Usuario usuario = usuarioService.findByCpf(elementoCpf.text());
-                Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi")
-                        .first().text().substring(0, 10));
-                Date dataAtual = new Date(System.currentTimeMillis());
-                NotaFiscal notaFiscal = new NotaFiscal(null,
-                        Double.parseDouble(doc.getElementsByTag("vNF").first().text()),
-                        doc.getElementsByTag("infNFe").first().id(),
-                        url,
-                        dataEmissao,
-                        dataAtual,
-                        usuario,
-                        loja);
-                repository.save(notaFiscal);
-
-                lojaDTO.setCnpj(loja.getCnpj());
-                lojaDTO.setId(loja.getId());
-                lojaDTO.setNome(loja.getNome());
-
-            } else {
-                throw new ObjectNotFoundException("CPF não encontrado na NFC-e");
+                } else {
+                    throw new ObjectNotFoundException("CPF não encontrado na NFC-e");
+                }
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return lojaDTO;
     }
