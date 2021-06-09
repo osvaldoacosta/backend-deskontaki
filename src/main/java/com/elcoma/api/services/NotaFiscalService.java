@@ -8,7 +8,6 @@ import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.repositories.NotaFiscalRepository;
 import com.elcoma.api.services.exceptions.DataConflictException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
-import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -77,20 +75,27 @@ public class NotaFiscalService {
 
                     int idUsuarioResquet = notaFiscal.getUsuario().getId();
                     int idUsuarioNota = usuario.getId();
-
                     if ( idUsuarioResquet != idUsuarioResquet){
                         throw new DataConflictException("CPF do consumidor na NFC-e difere do CPF do usuário!");
                     }
+
                     Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
                     double valorTotal = Double.parseDouble(doc.getElementsByTag("vNF").first().text());
-                    String keyNFe = doc.getElementsByTag("infNFe").first().id();
+
+
+                    String keyNfce = doc.getElementsByTag("infNFe").first().id();
+                    notaFiscal.setKey(keyNfce);
+                    List<NotaFiscal> listNotaFiscalValidarDuplicidade = findByKey(notaFiscal);
+                    if(listNotaFiscalValidarDuplicidade.size() > 0){
+                        throw new DataConflictException("Nota fiscal já cadastrada!");
+                    }
+
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi")
                             .first().text().substring(0, 10));
                     Date dataAtual = new Date(System.currentTimeMillis());
 
                     notaFiscal.setValor(valorTotal);
-                    notaFiscal.setKey(keyNFe);
                     notaFiscal.setDataEmissao(dataEmissao);
                     notaFiscal.setDataCadastro(dataAtual);
                     notaFiscal.setLoja(loja);
@@ -141,5 +146,9 @@ public class NotaFiscalService {
         Usuario usuario = usuarioService.findById(id);
         List<NotaFiscal> notaFiscalList = repository.findAllByUsuarioAndDataCadastro(id, dataCadastroFormat);
         return notaFiscalList;
+    }
+
+    public List<NotaFiscal> findByKey(NotaFiscal notaFiscal){
+        return repository.findByKey(notaFiscal.getKey());
     }
 }
