@@ -6,6 +6,7 @@ import com.elcoma.api.domain.Usuario;
 import com.elcoma.api.dto.LojaDTO;
 import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.repositories.NotaFiscalRepository;
+import com.elcoma.api.services.exceptions.DataConflictException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
 import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
@@ -61,9 +62,9 @@ public class NotaFiscalService {
         return repository.findAll();
     }
 
-    public LojaDTO register(String url) throws IOException {
+    public LojaDTO register(NotaFiscal notaFiscal) throws IOException {
         LojaDTO lojaDTO = new LojaDTO();
-        Document doc = Jsoup.connect("" + url).get();
+        Document doc = Jsoup.connect("" + notaFiscal.getUrl()).get();
         try {
             String erro = doc.getElementsByTag("erro").first().text();
 
@@ -71,12 +72,30 @@ public class NotaFiscalService {
                 Element elementoCpf = doc.getElementsByTag("CPF").first();
 
                 if (elementoCpf != null) {
+
                     Usuario usuario = usuarioService.findByCpf(elementoCpf.text());
+
+                    int idUsuarioResquet = notaFiscal.getUsuario().getId();
+                    int idUsuarioNota = usuario.getId();
+
+                    if ( idUsuarioResquet != idUsuarioResquet){
+                        throw new DataConflictException("CPF do consumidor na NFC-e difere do CPF do usuário!");
+                    }
                     Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
+                    double valorTotal = Double.parseDouble(doc.getElementsByTag("vNF").first().text());
+                    String keyNFe = doc.getElementsByTag("infNFe").first().id();
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi")
                             .first().text().substring(0, 10));
                     Date dataAtual = new Date(System.currentTimeMillis());
+
+                    notaFiscal.setValor(valorTotal);
+                    notaFiscal.setKey(keyNFe);
+                    notaFiscal.setDataEmissao(dataEmissao);
+                    notaFiscal.setDataCadastro(dataAtual);
+                    notaFiscal.setLoja(loja);
+
+                    /*
                     NotaFiscal notaFiscal = new NotaFiscal(null,
                             Double.parseDouble(doc.getElementsByTag("vNF").first().text()),
                             doc.getElementsByTag("infNFe").first().id(),
@@ -84,7 +103,7 @@ public class NotaFiscalService {
                             dataEmissao,
                             dataAtual,
                             usuario,
-                            loja);
+                            loja);*/
                     repository.save(notaFiscal);
 
                     lojaDTO.setCnpj(loja.getCnpj());

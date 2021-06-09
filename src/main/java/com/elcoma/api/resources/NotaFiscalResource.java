@@ -24,7 +24,7 @@ public class NotaFiscalResource {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<LojaDTO> insert(@Valid @RequestBody NotaFiscal notaFiscal) throws IOException {
-        LojaDTO lojaDTO =  service.register(notaFiscal.getUrl());
+        LojaDTO lojaDTO =  service.register(notaFiscal);
         return ResponseEntity.ok().body(lojaDTO);
     }
 
