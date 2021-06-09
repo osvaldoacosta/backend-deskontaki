@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+
     Optional<Usuario> findByCpf(String cpf);
 
     @Query(value = " select * from tb_usuario u inner join tb_perfil_usuario " +

@@ -20,4 +20,7 @@ public interface NotaFiscalRepository extends JpaRepository<NotaFiscal, Integer>
             " nf.id_usuario = :id AND nf.data_cadastro >= :dataCadastro ; ", nativeQuery = true)
     List<NotaFiscal> findAllByUsuarioAndDataCadastro(@Param("id") Integer id,
                                                      @Param("dataCadastro") Date dataCadastro);
+
+    @Query(value = " SELECT * FROM tb_notafiscal nf WHERE nf.key_nfce like :keyNfce ", nativeQuery = true)
+    List<NotaFiscal> findByKey(@Param("keyNfce") String keyNfce);
 }
