@@ -19,7 +19,7 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(DataConflictException.class)
 	public ResponseEntity<StandardError> dataConclict(DataConflictException e, HttpServletRequest request){
 		StandardError err = new StandardError(HttpStatus.UNPROCESSABLE_ENTITY.value(), e.getMessage(), System.currentTimeMillis());
-		return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
 	}
 
 	@ExceptionHandler(ObjectNotFoundException.class)
