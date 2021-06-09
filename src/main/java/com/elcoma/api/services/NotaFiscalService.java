@@ -71,17 +71,15 @@ public class NotaFiscalService {
 
                 if (elementoCpf != null) {
 
-                    Usuario usuario = usuarioService.findByCpf(elementoCpf.text());
+                    Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
+                    notaFiscal.setLoja(loja);
 
+                    Usuario usuario = usuarioService.findByCpf(elementoCpf.text());
                     int idUsuarioResquet = notaFiscal.getUsuario().getId();
                     int idUsuarioNota = usuario.getId();
-                    if ( idUsuarioResquet != idUsuarioResquet){
+                    if ( idUsuarioResquet != idUsuarioNota ){
                         throw new DataConflictException("CPF do consumidor na NFC-e difere do CPF do usuário!");
                     }
-
-                    Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
-                    double valorTotal = Double.parseDouble(doc.getElementsByTag("vNF").first().text());
-
 
                     String keyNfce = doc.getElementsByTag("infNFe").first().id();
                     notaFiscal.setKey(keyNfce);
@@ -93,22 +91,14 @@ public class NotaFiscalService {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     Date dataEmissao = format.parse(doc.getElementsByTag("dhEmi")
                             .first().text().substring(0, 10));
-                    Date dataAtual = new Date(System.currentTimeMillis());
-
-                    notaFiscal.setValor(valorTotal);
                     notaFiscal.setDataEmissao(dataEmissao);
-                    notaFiscal.setDataCadastro(dataAtual);
-                    notaFiscal.setLoja(loja);
 
-                    /*
-                    NotaFiscal notaFiscal = new NotaFiscal(null,
-                            Double.parseDouble(doc.getElementsByTag("vNF").first().text()),
-                            doc.getElementsByTag("infNFe").first().id(),
-                            url,
-                            dataEmissao,
-                            dataAtual,
-                            usuario,
-                            loja);*/
+                    Date dataAtual = new Date(System.currentTimeMillis());
+                    notaFiscal.setDataCadastro(dataAtual);
+
+                    double valorTotal = Double.parseDouble(doc.getElementsByTag("vNF").first().text());
+                    notaFiscal.setValor(valorTotal);
+
                     repository.save(notaFiscal);
 
                     lojaDTO.setCnpj(loja.getCnpj());
