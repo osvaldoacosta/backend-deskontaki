@@ -63,7 +63,7 @@ public class NotaFiscalResource {
             @PathVariable Integer idUsuario,
             @PathVariable String dataCadastro
     ) throws ParseException {
-        List<NotaFiscal> notaFiscalList = service.findAllByUsuarioAndDataCadastro(idUsuario, dataCadastro.trim());
+        List<NotaFiscal> notaFiscalList = service.findAllByUsuarioAndDataCadastro(idUsuario, dataCadastro);
         return ResponseEntity.ok().body(notaFiscalList);
     }
 }
