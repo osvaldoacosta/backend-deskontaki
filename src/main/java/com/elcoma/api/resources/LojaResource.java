@@ -50,7 +50,7 @@ public class LojaResource {
         return ResponseEntity.ok().body(list);
     }
 
-    @RequestMapping(value = "/{cnpj}", method = RequestMethod.GET)
+    @RequestMapping(value = "/cnpj/{cnpj}", method = RequestMethod.GET)
     public ResponseEntity<Loja> findByCnpj(@PathVariable String cnpj){
         Loja loja = service.findByCnpj(cnpj);
         return null;

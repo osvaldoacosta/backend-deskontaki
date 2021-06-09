@@ -2,6 +2,7 @@ package com.elcoma.api.services;
 
 
 import com.elcoma.api.domain.Loja;
+import com.elcoma.api.domain.Usuario;
 import com.elcoma.api.repositories.LojaRepository;
 import com.elcoma.api.services.exceptions.DataIntegretyException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
@@ -57,7 +58,9 @@ public class LojaService {
     }
 
     public Loja findByCnpj(String cnpj) {
-        return repository.findByCnpj(cnpj);
+        Optional<Loja> loja = repository.findByCnpj(cnpj);
+        return loja.orElseThrow(() -> new ObjectNotFoundException(
+                "Objeto não encontrado: CNPJ: " + cnpj + ", Tipo: " + Loja.class.getName()));
     }
 
 
