@@ -66,8 +66,10 @@ public class NotaFiscalService {
         Document doc = Jsoup.connect("" + url).get();
         try {
             String erro = doc.getElementsByTag("erro").first().text();
+
             if (erro.equals("")) {
                 Element elementoCpf = doc.getElementsByTag("CPF").first();
+
                 if (elementoCpf != null) {
                     Usuario usuario = usuarioService.findByCpf(elementoCpf.text());
                     Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
