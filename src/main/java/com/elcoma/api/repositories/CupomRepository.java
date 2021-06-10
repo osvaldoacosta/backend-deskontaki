@@ -37,8 +37,7 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
     public void sendCuponsForUsuarios(@Param("idCupom")Integer idCupom,
                                       @Param("idUsuario")Integer idUsuario);
 
-    @Query(value =  "SELECT c.id, c.titulo , c.descricao, c.valor, c.data_inicial," +
-                    " c.validade, c.id_loja, c.categoria, c.quantidade, c.codigo " +
+    @Query(value =  "SELECT * " +
                     " FROM " +
                     " tb_cupom c " +
                     " INNER JOIN " +
@@ -54,8 +53,7 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
     public List<Cupom> findAllByLojaAndUsuario( @Param("nome_loja")String nomeLoja,
                                                @Param("id_usuario")Integer idUsuario);
 
-    @Query(value =  "SELECT c.id, c.titulo , c.descricao, c.valor, c.data_inicial," +
-            " c.validade, c.id_loja, c.id_categoria, c.quantidade, c.codigo " +
+    @Query(value =  " SELECT * " +
             " FROM " +
             " tb_cupom c " +
             " INNER JOIN " +
@@ -67,7 +65,7 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
     List<Cupom> findAllByCategoriaAndUsuario(@Param("idCategoria") Integer idCategoria,
                                              @Param("id_usuario") Integer idUsuario);
 
-    @Query(value =  " SELECT c.id, c.titulo , c.descricao, c.valor, c.data_inicial," +
+    /*@Query(value =  " SELECT c.id, c.titulo , c.descricao, c.valor, c.data_inicial," +
             " c.validade, c.id_loja, c.id_categoria, c.quantidade, c.codigo " +
             " FROM " +
             " tb_cupom c " +
@@ -76,10 +74,25 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
             " ON " +
             " c.id = uc.id_cupom " +
             " WHERE " +
-            " uc.id_usuario = :id_usuario ", nativeQuery = true)
+            " uc.id_usuario = :id_usuario ", nativeQuery = true)*/
+    @Query( value = " SELECT * " +
+                    " FROM tb_cupom c " +
+                    " INNER JOIN " +
+                    " tb_usuario_cupom uc " +
+                    " ON " +
+                    " c.id = uc.id_cupom " +
+                    " WHERE " +
+                    " uc.id_usuario = :id_usuario ", nativeQuery = true)
     List<Cupom> findAllByUsuario(@Param("id_usuario") Integer id);
 
-    @Query(value = " SELECT * FROM tb_cupom c where " +
+    @Query(value =  " SELECT * " +
+            " FROM " +
+            " tb_cupom c " +
+            " INNER JOIN " +
+            " tb_usuario_cupom uc " +
+            " ON " +
+            " c.id = uc.id_cupom " +
+            " WHERE " +
             " Month(c.data_inicial) = :mes and " +
             " year(c.data_inicial) = :ano ", nativeQuery = true)
     List<Cupom> findAllByMonthAndYear(String mes, String ano);
