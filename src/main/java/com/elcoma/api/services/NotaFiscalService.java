@@ -108,6 +108,8 @@ public class NotaFiscalService {
                 } else {
                     throw new ObjectNotFoundException("CPF não encontrado na NFC-e");
                 }
+            }else{
+                throw new DataConflictException("Nota fiscal pendente de autorização do emissor");
             }
         } catch (ParseException e) {
             e.printStackTrace();
