@@ -88,10 +88,6 @@ public interface CupomRepository extends JpaRepository<Cupom, Integer> {
     @Query(value =  " SELECT * " +
             " FROM " +
             " tb_cupom c " +
-            " INNER JOIN " +
-            " tb_usuario_cupom uc " +
-            " ON " +
-            " c.id = uc.id_cupom " +
             " WHERE " +
             " Month(c.data_inicial) = :mes and " +
             " year(c.data_inicial) = :ano ", nativeQuery = true)
