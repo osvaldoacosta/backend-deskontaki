@@ -20,6 +20,7 @@ public class CupomDTO implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date validade;
     private Double valor;
+    private String codigo;
     private Integer idLoja;
     private String nomeLoja;
 }

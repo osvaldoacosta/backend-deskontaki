@@ -93,6 +93,7 @@ public class CupomService {
                     cupom.getDataInicial(),
                     cupom.getValidade(),
                     cupom.getValor(),
+                    cupom.getCodigo(),
                     cupom.getLoja().getId(),
                     cupom.getLoja().getNome()
             );
@@ -112,6 +113,7 @@ public class CupomService {
                     cupom.getDataInicial(),
                     cupom.getValidade(),
                     cupom.getValor(),
+                    cupom.getCodigo(),
                     cupom.getLoja().getId(),
                     cupom.getLoja().getNome()
             );
@@ -132,6 +134,7 @@ public class CupomService {
                     cupom.getDataInicial(),
                     cupom.getValidade(),
                     cupom.getValor(),
+                    cupom.getCodigo(),
                     cupom.getLoja().getId(),
                     cupom.getLoja().getNome()
             );
@@ -151,6 +154,7 @@ public class CupomService {
                     cupom.getDataInicial(),
                     cupom.getValidade(),
                     cupom.getValor(),
+                    cupom.getCodigo(),
                     cupom.getLoja().getId(),
                     cupom.getLoja().getNome()
             );
