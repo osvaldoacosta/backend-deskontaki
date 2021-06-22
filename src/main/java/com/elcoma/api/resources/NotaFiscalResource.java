@@ -1,6 +1,6 @@
 package com.elcoma.api.resources;
 
-import com.elcoma.api.domain.NotaFiscal;
+import com.elcoma.api.entity.NotaFiscal;
 import com.elcoma.api.dto.LojaDTO;
 import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.services.NotaFiscalService;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 @CrossOrigin("*")

@@ -1,7 +1,6 @@
 package com.elcoma.api.services;
-import com.elcoma.api.domain.Cupom;
-import com.elcoma.api.domain.Loja;
-import com.elcoma.api.domain.Usuario;
+import com.elcoma.api.entity.Cupom;
+import com.elcoma.api.entity.UsuarioEntity;
 import com.elcoma.api.dto.CupomDTO;
 import com.elcoma.api.repositories.CupomRepository;
 import com.elcoma.api.repositories.UsuarioRepository;
@@ -16,7 +15,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class CupomService {
@@ -72,9 +70,9 @@ public class CupomService {
     }
 
     public void sendCuponsForUsuarios(Integer idCupom, Integer idPerfil){
-        List<Usuario> usuarioList = usuarioRepository.findAllByPerfil(idPerfil);
-        for (Usuario usuario: usuarioList ){
-            repository.sendCuponsForUsuarios(idCupom, usuario.getId());
+        List<UsuarioEntity> usuarioEntityList = usuarioRepository.findAllByPerfil(idPerfil);
+        for (UsuarioEntity usuarioEntity : usuarioEntityList){
+            repository.sendCuponsForUsuarios(idCupom, usuarioEntity.getId());
         }
     }
 

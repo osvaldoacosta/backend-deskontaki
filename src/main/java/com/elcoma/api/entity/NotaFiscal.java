@@ -1,7 +1,6 @@
-package com.elcoma.api.domain;
+package com.elcoma.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +28,7 @@ public class NotaFiscal implements Serializable{
     private Date dataCadastro;
     @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    private UsuarioEntity usuario;
     @ManyToOne
     @JoinColumn(name = "id_loja")
     private Loja loja;
@@ -38,10 +37,10 @@ public class NotaFiscal implements Serializable{
     }
 
     public NotaFiscal(Integer id, Double valor, String key, String url, Date dataEmissao,
-                      Date dataCadastro, Usuario usuario, Loja loja) {
+                      Date dataCadastro, UsuarioEntity usuarioEntity, Loja loja) {
         this.id = id;
         this.valor = valor;
-        this.usuario = usuario;
+        this.usuario = usuarioEntity;
         this.loja= loja;
         this.url = url;
         this.key = key;

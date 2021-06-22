@@ -1,6 +1,6 @@
 package com.elcoma.api.resources;
 
-import com.elcoma.api.domain.Categoria;
+import com.elcoma.api.entity.Categoria;
 import com.elcoma.api.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

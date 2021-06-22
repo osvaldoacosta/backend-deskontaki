@@ -1,8 +1,7 @@
 package com.elcoma.api.services;
 
 
-import com.elcoma.api.domain.Loja;
-import com.elcoma.api.domain.Usuario;
+import com.elcoma.api.entity.Loja;
 import com.elcoma.api.repositories.LojaRepository;
 import com.elcoma.api.services.exceptions.DataIntegretyException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
@@ -11,11 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
-import com.elcoma.api.domain.Cupom;
-import com.elcoma.api.domain.Loja;
-import com.elcoma.api.repositories.LojaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service

@@ -1,4 +1,4 @@
-package com.elcoma.api.domain;
+package com.elcoma.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

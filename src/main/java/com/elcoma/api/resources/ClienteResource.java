@@ -5,14 +5,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.elcoma.api.domain.Cliente;
-import com.elcoma.api.domain.Cupom;
-import com.elcoma.api.repositories.LojaRepository;
+import com.elcoma.api.entity.Cliente;
 import com.elcoma.api.services.ClienteService;
 
 import com.elcoma.api.services.LojaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

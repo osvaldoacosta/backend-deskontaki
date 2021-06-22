@@ -1,6 +1,6 @@
 package com.elcoma.api.services;
 
-import com.elcoma.api.domain.Categoria;
+import com.elcoma.api.entity.Categoria;
 import com.elcoma.api.repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,6 @@
 package com.elcoma.api.services;
 
-import com.elcoma.api.domain.Loja;
-import com.elcoma.api.domain.Propaganda;
+import com.elcoma.api.entity.Propaganda;
 import com.elcoma.api.repositories.PropagandaRepository;
 import com.elcoma.api.services.exceptions.DataIntegretyException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
