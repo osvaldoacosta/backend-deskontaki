@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
 
 @Service
 public class CupomService {
@@ -63,6 +63,7 @@ public class CupomService {
         List<Cupom> cupom = repository.findAllByMothAndUsuario(ano, mes, id_usuario);
         return cupom;
     }
+
     public void updateStatus(Integer idCupom, Integer idUsuario) {
         findById(idCupom);
         String status = "U";
@@ -120,7 +121,6 @@ public class CupomService {
         return  cupomDTOList;
     }
 
-
     public List<CupomDTO> findAllByUsuario(Integer id) {
         List<Cupom> cupomList = repository.findAllByUsuario(id);
         List<CupomDTO> cupomDTOList = new ArrayList<>();
@@ -159,5 +159,23 @@ public class CupomService {
             cupomDTOList.add(cupomDTO);
         }
         return  cupomDTOList;
+    }
+
+    public List<CupomDTO> findAllByMonthAndLoja(Integer idUsuario,
+                                                Integer idLoja,
+                                                Integer mes,
+                                                Integer ano) {
+        List<CupomDTO> dtoList = findAllByUsuario(idUsuario);
+        List<CupomDTO> newDtoList= new ArrayList<>();
+        dtoList.stream()
+                .filter(dto -> dto.getIdLoja().equals(idLoja))
+                .forEach(dto-> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dto.getDataInicial());
+                    if(((calendar.get(Calendar.MONTH)+1) == mes) && (calendar.get(Calendar.YEAR) == ano)){
+                        newDtoList.add(dto);
+                    }
+                });
+        return newDtoList;
     }
 }
