@@ -1,10 +1,8 @@
 package com.elcoma.api.resources;
 
-import com.elcoma.api.domain.Cupom;
+import com.elcoma.api.entity.Cupom;
 import com.elcoma.api.dto.CupomDTO;
-import com.elcoma.api.services.ClienteService;
 import com.elcoma.api.services.CupomService;
-import com.elcoma.api.services.LojaService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.security.Provider;
 import java.util.List;
 
 @RestController
@@ -87,6 +84,15 @@ public class CupomResource {
                                                                 @PathVariable String ano){
         List<CupomDTO> cupomDTOList = service.findAllByMonthAndYear(mes, ano);
         return ResponseEntity.ok().body(cupomDTOList);
+    }
+
+    @RequestMapping(value = "/usuariolojamesano", method = RequestMethod.GET)
+    public ResponseEntity<List<CupomDTO>> findAllByMonthAndLoja(@RequestParam Integer idUsuario,
+                                                                @RequestParam Integer idLoja,
+                                                                @RequestParam Integer mes,
+                                                                @RequestParam Integer ano){
+        List<CupomDTO> ListDTO = service.findAllByMonthAndLoja(idUsuario, idLoja, mes, ano);
+        return  ResponseEntity.ok().body(ListDTO);
     }
 }
 

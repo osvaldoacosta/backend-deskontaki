@@ -1,5 +1,4 @@
-package com.elcoma.api.domain;
-import com.elcoma.api.enums.CouponType;
+package com.elcoma.api.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

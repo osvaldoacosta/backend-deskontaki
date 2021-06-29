@@ -1,6 +1,6 @@
 package com.elcoma.api.resources;
 
-import com.elcoma.api.domain.PerfilUsuario;
+import com.elcoma.api.entity.PerfilUsuario;
 import com.elcoma.api.services.PerfilUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

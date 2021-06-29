@@ -1,6 +1,6 @@
 package com.elcoma.api.repositories;
 
-import com.elcoma.api.domain.Cupom;
+import com.elcoma.api.entity.Cupom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CupomRepository extends JpaRepository<Cupom, Integer> {

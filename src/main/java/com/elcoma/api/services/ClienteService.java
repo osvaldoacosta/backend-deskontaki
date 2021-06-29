@@ -3,12 +3,8 @@ package com.elcoma.api.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.elcoma.api.domain.Cliente;
-import com.elcoma.api.domain.Cupom;
-import com.elcoma.api.domain.Loja;
+import com.elcoma.api.entity.Cliente;
 import com.elcoma.api.repositories.ClienteRepository;
-import com.elcoma.api.repositories.CupomRepository;
-import com.elcoma.api.services.exceptions.LojaExceptions.CompanyDoesntOwnCoupon;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;

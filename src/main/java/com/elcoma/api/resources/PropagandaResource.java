@@ -1,7 +1,6 @@
 package com.elcoma.api.resources;
 
-import com.elcoma.api.domain.Loja;
-import com.elcoma.api.domain.Propaganda;
+import com.elcoma.api.entity.Propaganda;
 import com.elcoma.api.services.PropagandaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

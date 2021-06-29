@@ -1,7 +1,6 @@
 package com.elcoma.api.services;
-import com.elcoma.api.domain.Cupom;
-import com.elcoma.api.domain.Loja;
-import com.elcoma.api.domain.Usuario;
+import com.elcoma.api.entity.Cupom;
+import com.elcoma.api.entity.UsuarioEntity;
 import com.elcoma.api.dto.CupomDTO;
 import com.elcoma.api.repositories.CupomRepository;
 import com.elcoma.api.repositories.UsuarioRepository;
@@ -11,12 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.function.Function;
 
 @Service
 public class CupomService {
@@ -65,6 +63,7 @@ public class CupomService {
         List<Cupom> cupom = repository.findAllByMothAndUsuario(ano, mes, id_usuario);
         return cupom;
     }
+
     public void updateStatus(Integer idCupom, Integer idUsuario) {
         findById(idCupom);
         String status = "U";
@@ -72,9 +71,9 @@ public class CupomService {
     }
 
     public void sendCuponsForUsuarios(Integer idCupom, Integer idPerfil){
-        List<Usuario> usuarioList = usuarioRepository.findAllByPerfil(idPerfil);
-        for (Usuario usuario: usuarioList ){
-            repository.sendCuponsForUsuarios(idCupom, usuario.getId());
+        List<UsuarioEntity> usuarioEntityList = usuarioRepository.findAllByPerfil(idPerfil);
+        for (UsuarioEntity usuarioEntity : usuarioEntityList){
+            repository.sendCuponsForUsuarios(idCupom, usuarioEntity.getId());
         }
     }
 
@@ -122,7 +121,6 @@ public class CupomService {
         return  cupomDTOList;
     }
 
-
     public List<CupomDTO> findAllByUsuario(Integer id) {
         List<Cupom> cupomList = repository.findAllByUsuario(id);
         List<CupomDTO> cupomDTOList = new ArrayList<>();
@@ -161,5 +159,23 @@ public class CupomService {
             cupomDTOList.add(cupomDTO);
         }
         return  cupomDTOList;
+    }
+
+    public List<CupomDTO> findAllByMonthAndLoja(Integer idUsuario,
+                                                Integer idLoja,
+                                                Integer mes,
+                                                Integer ano) {
+        List<CupomDTO> dtoList = findAllByUsuario(idUsuario);
+        List<CupomDTO> newDtoList= new ArrayList<>();
+        dtoList.stream()
+                .filter(dto -> dto.getIdLoja().equals(idLoja))
+                .forEach(dto-> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(dto.getDataInicial());
+                    if(((calendar.get(Calendar.MONTH)+1) == mes) && (calendar.get(Calendar.YEAR) == ano)){
+                        newDtoList.add(dto);
+                    }
+                });
+        return newDtoList;
     }
 }

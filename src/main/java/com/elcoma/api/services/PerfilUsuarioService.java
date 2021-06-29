@@ -1,6 +1,6 @@
 package com.elcoma.api.services;
 
-import com.elcoma.api.domain.PerfilUsuario;
+import com.elcoma.api.entity.PerfilUsuario;
 import com.elcoma.api.repositories.PerfilUsuarioRepository;
 import com.elcoma.api.services.exceptions.DataIntegretyException;
 import com.elcoma.api.services.exceptions.ObjectNotFoundException;

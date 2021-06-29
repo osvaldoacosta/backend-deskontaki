@@ -1,8 +1,8 @@
 package com.elcoma.api.services;
 
-import com.elcoma.api.domain.Loja;
-import com.elcoma.api.domain.NotaFiscal;
-import com.elcoma.api.domain.Usuario;
+import com.elcoma.api.entity.Loja;
+import com.elcoma.api.entity.NotaFiscal;
+import com.elcoma.api.entity.UsuarioEntity;
 import com.elcoma.api.dto.LojaDTO;
 import com.elcoma.api.dto.NotaFiscalDTO;
 import com.elcoma.api.repositories.NotaFiscalRepository;
@@ -39,7 +39,6 @@ public class NotaFiscalService {
 
     public NotaFiscal findById(Integer id) {
         Optional<NotaFiscal> notaFiscal = repository.findById(id);
-
         return notaFiscal.orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado: Id: " + id + ", Tipo: " + NotaFiscal.class.getName()
         ));
@@ -48,7 +47,6 @@ public class NotaFiscalService {
     public NotaFiscal update(NotaFiscal notaFiscal) {
         findById(notaFiscal.getId());
         return repository.save(notaFiscal);
-
     }
 
     public void delete(Integer id) {
@@ -74,17 +72,17 @@ public class NotaFiscalService {
                     Loja loja = lojaService.findByCnpj(doc.getElementsByTag("CNPJ").first().text());
                     notaFiscal.setLoja(loja);
 
-                    Usuario usuario = usuarioService.findByCpf(elementoCpf.text());
+                    UsuarioEntity usuarioEntity = usuarioService.findByCpf(elementoCpf.text());
                     int idUsuarioResquet = notaFiscal.getUsuario().getId();
-                    int idUsuarioNota = usuario.getId();
-                    if ( idUsuarioResquet != idUsuarioNota ){
+                    int idUsuarioNota = usuarioEntity.getId();
+                    if (idUsuarioResquet != idUsuarioNota) {
                         throw new DataConflictException("CPF do consumidor na NFC-e difere do CPF do usuário!");
                     }
 
                     String keyNfce = doc.getElementsByTag("infNFe").first().id();
                     notaFiscal.setKey(keyNfce);
                     List<NotaFiscal> listNotaFiscalValidarDuplicidade = findByKey(notaFiscal);
-                    if(listNotaFiscalValidarDuplicidade.size() > 0){
+                    if (listNotaFiscalValidarDuplicidade.size() > 0) {
                         throw new DataConflictException("Nota fiscal já cadastrada!");
                     }
 
@@ -108,7 +106,7 @@ public class NotaFiscalService {
                 } else {
                     throw new ObjectNotFoundException("CPF não encontrado na NFC-e");
                 }
-            }else{
+            } else {
                 throw new DataConflictException("Nota fiscal pendente de autorização do emissor");
             }
         } catch (ParseException e) {
@@ -120,27 +118,26 @@ public class NotaFiscalService {
     public List<NotaFiscalDTO> findByYear(String year) {
         List<NotaFiscal> notaFiscalList = repository.findByYear(year);
         List<NotaFiscalDTO> notaFiscalDTOList = new ArrayList<>();
-        for (NotaFiscal notaFiscal : notaFiscalList) {
-            NotaFiscalDTO notaFiscalDTO = new NotaFiscalDTO(
-                    notaFiscal.getKey(),
-                    notaFiscal.getValor(),
-                    notaFiscal.getDataEmissao(),
-                    notaFiscal.getUsuario().getCpf()
-            );
-            notaFiscalDTOList.add(notaFiscalDTO);
-        }
+        notaFiscalList.forEach(notaFiscal -> {
+            NotaFiscalDTO dto = NotaFiscalDTO.builder()
+                    .keyNfce(notaFiscal.getKey())
+                    .valor(notaFiscal.getValor())
+                    .dataEmissao(notaFiscal.getDataEmissao())
+                    .cpfConsumidor(notaFiscal.getUsuario().getCpf()).build();
+            notaFiscalDTOList.add(dto);
+        });
         return notaFiscalDTOList;
     }
 
     public List<NotaFiscal> findAllByUsuarioAndDataCadastro(Integer id, String dataCadastro) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
         Date dataCadastroFormat = format.parse(dataCadastro);
-        Usuario usuario = usuarioService.findById(id);
+        UsuarioEntity usuarioEntity = usuarioService.findById(id);
         List<NotaFiscal> notaFiscalList = repository.findAllByUsuarioAndDataCadastro(id, dataCadastroFormat);
         return notaFiscalList;
     }
 
-    public List<NotaFiscal> findByKey(NotaFiscal notaFiscal){
+    public List<NotaFiscal> findByKey(NotaFiscal notaFiscal) {
         return repository.findByKey(notaFiscal.getKey());
     }
 }

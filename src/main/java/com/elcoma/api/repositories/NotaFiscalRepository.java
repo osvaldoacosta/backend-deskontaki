@@ -1,6 +1,6 @@
 package com.elcoma.api.repositories;
 
-import com.elcoma.api.domain.NotaFiscal;
+import com.elcoma.api.entity.NotaFiscal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,6 +1,6 @@
 package com.elcoma.api.resources;
 
-import com.elcoma.api.domain.Loja;
+import com.elcoma.api.entity.Loja;
 import com.elcoma.api.services.LojaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.elcoma.api.resources;
 
-import com.elcoma.api.domain.Usuario;
+import com.elcoma.api.entity.UsuarioEntity;
 import com.elcoma.api.dto.UsuarioDTO;
 import com.elcoma.api.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +19,21 @@ public class UsuarioResource {
     private UsuarioService service;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Integer> insert(@Valid @RequestBody Usuario usuario) {
-        usuario = service.insert(usuario);
-        return ResponseEntity.ok().body(usuario.getId());
+    public ResponseEntity<Integer> insert(@Valid @RequestBody UsuarioEntity usuarioEntity) {
+        usuarioEntity = service.insert(usuarioEntity);
+        return ResponseEntity.ok().body(usuarioEntity.getId());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Usuario> find(@PathVariable Integer id) {
-        Usuario usuario = service.findById(id);
-        return ResponseEntity.ok().body(usuario);
+    public ResponseEntity<UsuarioEntity> find(@PathVariable Integer id) {
+        UsuarioEntity usuarioEntity = service.findById(id);
+        return ResponseEntity.ok().body(usuarioEntity);
     }
 
     @RequestMapping(value = "/cpf/{cpf}", method = RequestMethod.GET)
-    public ResponseEntity<Usuario> findByCpf(@PathVariable String cpf) {
-        Usuario usuario = service.findByCpf(cpf);
-        return ResponseEntity.ok().body(usuario);
+    public ResponseEntity<UsuarioEntity> findByCpf(@PathVariable String cpf) {
+        UsuarioEntity usuarioEntity = service.findByCpf(cpf);
+        return ResponseEntity.ok().body(usuarioEntity);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -43,8 +43,8 @@ public class UsuarioResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Valid @RequestBody Usuario usuario, @PathVariable Integer id) {
-        usuario = service.update(usuario, id);
+    public ResponseEntity<Void> update(@Valid @RequestBody UsuarioEntity usuarioEntity, @PathVariable Integer id) {
+        usuarioEntity = service.update(usuarioEntity, id);
         return ResponseEntity.noContent().build();
     }
 }

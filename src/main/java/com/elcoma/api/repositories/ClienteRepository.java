@@ -1,6 +1,6 @@
 package com.elcoma.api.repositories;
 
-import com.elcoma.api.domain.Cliente;
+import com.elcoma.api.entity.Cliente;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

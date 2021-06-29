@@ -1,10 +1,8 @@
-package com.elcoma.api.domain;
-
-
+package com.elcoma.api.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,9 +11,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity(name = "tb_usuario")
-
-@Getter @Setter
-public class Usuario implements Serializable {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Slf4j
+public class UsuarioEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +32,8 @@ public class Usuario implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<NotaFiscal> notasFiscais = new ArrayList<>();
-    public Usuario(){}
-    public Usuario(int id, String cpf, String nome, String endereco, String sexo, String email, Date nascimento, String senha) {
+
+    public UsuarioEntity(int id, String cpf, String nome, String endereco, String sexo, String email, Date nascimento, String senha) {
         this.id = id;
         this.cpf = cpf;
         this.nome = nome;
