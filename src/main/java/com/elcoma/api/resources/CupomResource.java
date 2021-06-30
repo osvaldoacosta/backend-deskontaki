@@ -87,11 +87,11 @@ public class CupomResource {
     }
 
     @RequestMapping(value = "/usuariolojamesano", method = RequestMethod.GET)
-    public ResponseEntity<List<CupomDTO>> findAllByMonthAndLoja(@RequestParam Integer idUsuario,
+    public ResponseEntity<List<CupomDTO>> findAllByUserAndLojaAndMonthAndLoja(@RequestParam Integer idUsuario,
                                                                 @RequestParam Integer idLoja,
                                                                 @RequestParam Integer mes,
                                                                 @RequestParam Integer ano){
-        List<CupomDTO> ListDTO = service.findAllByMonthAndLoja(idUsuario, idLoja, mes, ano);
+        List<CupomDTO> ListDTO = service.findAllByUserAndLojaAndMonthAndLoja(idUsuario, idLoja, mes, ano);
         return  ResponseEntity.ok().body(ListDTO);
     }
 }
